@@ -1056,12 +1056,15 @@ hr {
     gap: 20px;
     align-items: center;
     padding: 10px 0;
+    text-align: center;
 }
 
 .journal-scan-img {
+    max-width: 400px;
     width: 100%;
-    max-width: 800px;
     height: auto;
+    display: block;
+    margin: 0 auto; 
     border: 1px solid var(--color-border);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease;
@@ -1392,5 +1395,31 @@ footer {
     }
     .contact-form-section h2, .direct-contact-section h2 {
         font-size: 1.5rem;
+    }
+}
+/* --- Active Navigation Link Styling --- */
+
+/* Base style for the active link */
+.navbar nav a.active {
+    color: var(--color-primary); /* Sets the highlight color */
+    font-weight: 600;
+}
+
+/* Ensure the active link has the underline permanently */
+.navbar nav a.active::after {
+    content: '';
+    position: absolute;
+    width: 100%; /* Permanent underline */
+    height: 2px;
+    background: var(--color-primary);
+    left: 0;
+    bottom: -5px;
+    transition: none; /* No transition needed for the active state */
+}
+
+/* Mobile Fix: Ensure the highlight works on mobile too */
+@media (max-width: 850px) {
+    .navbar nav a.active::after {
+        display: none; /* Hide the underline on mobile for a cleaner look */
     }
 }
