@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    
+    <div class="overlay"></div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const body = document.body;
+
+        body.classList.add('fade-in');
+
+        document.querySelectorAll('a[href]').forEach(link => {
+            const href = link.getAttribute('href');
+            if (href.startsWith('#') || link.hostname !== location.hostname || !href.endsWith('.html')) {
+                return;
+            }
+            
+            link.addEventListener('click', function(event) {
+                const targetPage = this.getAttribute('href');
+                event.preventDefault(); 
+                body.classList.remove('fade-in');
+                body.classList.add('fade-out');
+                setTimeout(() => {
+                    window.location.href = targetPage;
+                }, 500); 
+            });
+        });
+
+        const toggleButton = document.querySelector('.menu-toggle');
+        // CORRECTION: Target the nav element by ID for consistency
+        const navMenu = document.getElementById('mobile-nav-menu'); 
+        const overlay = document.querySelector('.overlay'); 
+
+        function toggleMenu() {
+            if (!navMenu) return; 
+
+            const isOpen = navMenu.classList.toggle('open');
+            overlay.classList.toggle('active', isOpen);
+            // CORRECTION: Use textContent for clean text replacement (☰/✕)
+            toggleButton.textContent = isOpen ? '✕' : '☰';
+            document.body.style.overflow = isOpen ? 'hidden' : '';
+        }
+
+        if (toggleButton) {
+            toggleButton.addEventListener('click', toggleMenu);
+        }
+        
+        if (overlay) {
+            overlay.addEventListener('click', toggleMenu);
+        }
+
+        if (navMenu) {
+            navMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (navMenu.classList.contains('open')) {
+                        const href = link.getAttribute('href');
+                        if (href.endsWith('.html') && link.hostname === location.hostname) {
+                            setTimeout(toggleMenu, 500); 
+                        } else {
+                            toggleMenu();
+                        }
+                    }
+                });
+            });
+        }
+
+        const modal = document.getElementById('certModal'); 
+        const modalImage = document.getElementById('modalCertImage');
+        const closeModal = document.querySelector('.close-modal');
+
+        if (modal) {
+            modal.style.display = 'none'; 
+        }
+
+        window.openModal = function(imageSrc) {
+            modalImage.src = imageSrc;
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        const certItems = document.querySelectorAll('.cert-item');
+        certItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const imagePath = item.querySelector('.cert-image-full').src; 
+                openModal(imagePath);
+            });
+        });
+
+        window.openProjectModal = function(imageWrapper) {
+            const projectEntry = imageWrapper.closest('.project-entry');
+            if (!projectEntry) return;
+
+            const imagePath = projectEntry.querySelector('.project-image-full').src;
+            openModal(imagePath);
+        }
+
+        window.openGalleryModal = function(element) {
+            const imagePath = element.querySelector('.gallery-image-full').src;
+            openModal(imagePath);
+        }
+
+        if (closeModal) {
+            closeModal.addEventListener('click', () => {
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+            });
+        }
+
+
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+        });
+    });
+    </script>
+    <div class="full-width-navbar-wrapper">
+        <header class="navbar">
+            <div class="logo">My Profile</div>
+            
+            <button class="menu-toggle" aria-label="Toggle navigation menu">&#9776;</button>
+            
+            <nav id="mobile-nav-menu"> <div class="nav-links-wrapper">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="profile.html">Profile</a></li>
+            <li><a href="tours.html">Gallery</a></li> 
+            <li><a href="journal.html">Journal</a></li> 
+            <li><a href="contact.html">Contact Me</a></li>
+        </ul>
+    </div>
+    
+   
+</nav>
+        </header>
+    </div>
+
+    <main class="profile-main">
+        <div class="profile-container">
+            <header class="profile-header-summary">
+                <div class="profile-photo-container">
+                    <img src="img/aipic.png" alt="Miguel Dee S. Retotal Profile Picture" class="profile-photo">
+                </div>
+                <h1>Miguel Dee S. Retotal</h1>
+                <p class="summary-title">IT Student & Aspiring Web Designer</p>
+                <p>I am a 3rd year IT student with a strong passion for web design and user experience. I enjoy creating modern, responsive, and user-friendly websites. I am skilled in multiple design tools and I'm always eager to learn more about front-end development and design trends.</p>
+                
+                <div class="profile-actions">
+                    <a href="#certs-section" class="cta-button secondary-cta">View Certifications ↓</a>
+                </div>
+            </header>
+
+            <hr>
+            
+            <section id="skills-section" class="profile-section">
+                <h2>Technical Skills & Stack</h2>
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h3>Frontend </h3>
+                        <ul>
+                            <li>HTML, CSS, JavaScript</li>
+                            <li>React Native</li>
+                        </ul>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Design & Tools</h3>
+                        <ul>
+                            <li>Figma (UI/UX Design)</li>
+                            <li>Git/GitHub (Version Control)</li>
+                        </ul>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Backend/Database</h3>
+                        <ul>
+                            <li>SQL (MySQL)</li>
+                            <li>Basic Python</li>
+                            <li>Object-Oriented Programming (OOP)</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            
+            <hr>
+            
+            <section id="projects-section" class="profile-section">
+                <h2>Featured Projects</h2>
+                <div>
+                    <div class="project-entry project-entry-dark">
+                        <div class="project-image-wrapper" style="cursor: pointer;" onclick="openProjectModal(this)">
+                            <img src="img/f1adv.png" alt="Screenshot of Portfolio Website" class="project-image">
+                            <img src="img/f1adv.png" alt="Full view of Portfolio Website" class="project-image-full" style="display: none;">
+                        </div>
+                        <div class="project-details-content">
+                            <h3>F1 fansite</h3>
+                            <p>This is a dedicated Formula One fan site designed to be the ultimate guide for enthusiasts seeking the latest updates, historical moments, and exclusive insights into the world of F1.</p>
+                            <span class="project-tech">Tech Stack: React Native</span>
+                        </div>
+                    </div>
+                    
+                    <div class="project-entry project-entry-dark">
+                        <div class="project-image-wrapper" style="cursor: pointer;" onclick="openProjectModal(this)">
+                            <img src="img/food.png" alt="Screenshot of E-commerce Redesign" class="project-image">
+                            <img src="img/food.png" alt="Full view of E-commerce Redesign" class="project-image-full" style="display: none;">
+                        </div>
+                        <div class="project-details-content">
+                            <h3>FoodBlog site</h3>
+                            <p>This is a frontend prototype for a food blog featuring Pinoy cuisine, displaying a clean header with navigation links (Home, Blog, Review, About, Contact) and a reviews of famous bloggers.</p>
+                            <span class="project-tech">Tech Stack: HTML, CSS (Bootsrap/Grid)</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <hr>
+
+            <section id="certs-section" class="profile-section">
+                <h2>Certification & Training</h2>
+                <div class="certs-list">
+                    
+                    <div class="cert-item" style="cursor: pointer;">
+                        <div class="cert-visual-full">
+                            <img src="img/cert.jpg" alt="Educational Tour Certificate Preview" class="cert-image-full">
+                        </div>
+                        <div class="cert-details-group">
+                            <span class="cert-name">Educational Trip Completion in Davao City</span>
+                            <span class="cert-issuer">World of Adventures Travel and Tours</span>
+                            <span class="cert-date">November 2025</span> 
+                        </div>
+                    </div>
+                    <div class="cert-item" style="cursor: pointer;">
+                        <div class="cert-visual-full">
+                            <img src="img/codechum.jpg" alt="CodeChum Certificate Preview" class="cert-image-full">
+                        </div>
+                        <div class="cert-details-group">
+                            <span class="cert-name">Information Management Module Completion</span>
+                            <span class="cert-issuer">CodeChum </span>
+                            <span class="cert-date">May 2025</span> 
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <hr>
+
+            <section id="contact-info" class="profile-section contact-section">
+                <h2>Contact Information</h2>
+                <p>Ready to collaborate or hire? Find my full contact details on the <a href="contact.html">Contact Me</a> page.</p>
+                <p>Email: <a href="mailto:rmigueldee@gmail.com">rmigueldee@gmail.com</a></p>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>Ready to start a project? <a href="contact.html">Let's connect.</a></p>
+            <p>&copy; 2025 Miguel Dee S. Retotal. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <div id="certModal" class="modal">
+        <span class="close-modal">&times;</span>
+        <div class="modal-content-wrapper">
+            <img class="modal-content" id="modalCertImage">
+        </div>
+    </div>
+</body>
+</html>

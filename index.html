@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Personal Portfolio - Miguel Retotal</title>
+    <link rel="stylesheet" href="styles.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="overlay" id="overlay"></div> 
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const body = document.body;
+
+        // --- Page Transition Logic ---
+        body.classList.add('fade-in');
+        document.querySelectorAll('a[href]').forEach(link => {
+            const href = link.getAttribute('href');
+            if (href.startsWith('#') || link.hostname !== location.hostname) {
+                return;
+            }
+            if (href.endsWith('.html')) {
+                link.addEventListener('click', function(event) {
+                    const targetPage = this.getAttribute('href');
+                    event.preventDefault(); 
+                    body.classList.remove('fade-in');
+                    body.classList.add('fade-out');
+                    setTimeout(() => {
+                        window.location.href = targetPage;
+                    }, 500);
+                });
+            }
+        });
+
+        // --- Typing Effect Script (Specific to index.html) ---
+        const phrases = ["Web Developer", "UX Designer", "Frontend Enthusiast", "Problem Solver"];
+        const typedTextSpan = document.getElementById('typed-text');
+        const typingSpeed = 100;
+        const deletingSpeed = 50;
+        const pauseTime = 1500;
+        let phraseIndex = 0; 
+        let charIndex = 0; 
+        
+        function type() {
+            if (!typedTextSpan) return;
+
+            if (phraseIndex < phrases.length) {
+                let currentPhrase = phrases[phraseIndex];
+                if (charIndex < currentPhrase.length) {
+                    typedTextSpan.textContent += currentPhrase.charAt(charIndex);
+                    charIndex++;
+                    setTimeout(type, typingSpeed);
+                } else {
+                    setTimeout(erase, pauseTime);
+                }
+            }
+        }
+        function erase() {
+            if (!typedTextSpan) return;
+            
+            let currentPhrase = phrases[phraseIndex];
+            if (charIndex > 0) {
+                typedTextSpan.textContent = currentPhrase.substring(0, charIndex - 1);
+                charIndex--;
+                setTimeout(erase, deletingSpeed);
+            } else {
+                phraseIndex++;
+                if (phraseIndex >= phrases.length) {
+                    phraseIndex = 0;
+                }
+                setTimeout(type, typingSpeed); 
+            }
+        } 
+        if(typedTextSpan) {
+            type(); 
+        }
+
+        // --- Mobile Menu Logic (Copied from your journal.html) ---
+        const toggleButton = document.querySelector('.menu-toggle');
+        const navMenu = document.getElementById('mobile-nav-menu'); 
+        const overlay = document.querySelector('.overlay'); 
+
+        function toggleMenu() {
+            if (!navMenu) return;
+
+            const isOpen = navMenu.classList.toggle('open');
+            overlay.classList.toggle('active', isOpen);
+            
+            // Uses text content '✕' and '☰' as requested by the provided script
+            toggleButton.textContent = isOpen ? '✕' : '☰'; 
+            document.body.style.overflow = isOpen ? 'hidden' : '';
+        }
+
+        if (toggleButton) {
+            toggleButton.addEventListener('click', toggleMenu);
+            // Ensure button starts with '☰' if not set in HTML
+            if (toggleButton.textContent === '') {
+                toggleButton.textContent = '☰';
+            }
+        }
+
+        if (overlay) {
+            overlay.addEventListener('click', toggleMenu);
+        }
+
+        if (navMenu) {
+            navMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (navMenu.classList.contains('open')) {
+                        const href = link.getAttribute('href');
+                        if (!href.startsWith('#') && link.hostname === location.hostname) {
+                            setTimeout(toggleMenu, 500); 
+                        } else {
+                            toggleMenu();
+                        }
+                    }
+                });
+            });
+        }
+    });
+    </script>
+              
+    <div class="full-width-navbar-wrapper">
+        <header class="navbar">
+            <div class="logo">Home</div>
+            
+            <button class="menu-toggle" aria-label="Toggle navigation menu">&#9776;</button>
+            
+            <nav id="mobile-nav-menu"> 
+                <div class="nav-links-wrapper">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="profile.html">Profile</a></li>
+                        <li><a href="tours.html">Gallery</a></li> 
+                        <li><a href="journal.html">Journal</a></li> 
+                        <li><a href="contact.html">Contact Me</a></li>
+                    </ul>
+                    <div class="social-links"> 
+                        <a href="https://www.facebook.com/migzz.0525" title="Facebook" target="_blank" aria-label="Facebook Profile"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/miguelretotal/" title="Instagram" target="_blank" aria-label="Instagram Profile"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+    </div>
+    
+    <main class="hero-section">
+        <div class="hero-content">
+            <h1>Miguel Dee S. Retotal</h1>
+            <div class="type-container">
+                <p>I am a <span id="typed-text"></span><span class="cursor">|</span></p>
+            </div>
+            <p class="intro-text">
+                I'm a 3rd Year College Student focused on building resilient and scalable software solutions. This portfolio showcases my journey, from academic projects to certifications and industry exposure. Let's connect!
+            </p>
+            <a href="profile.html" class="cta-button">View Profile ></a>
+            
+            </div>
+        
+        <div class="profile-image">
+            <img src="img/pfp.jpg" alt="Your Profile Picture">
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>Ready to start a project? <a href="contact.html">Let's connect.</a></p>
+            <p>&copy; 2025 Miguel Dee S. Retotal. All rights reserved.</p>
+        </div>
+    </footer>
+    
+</body>
+</html>
